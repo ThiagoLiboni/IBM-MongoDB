@@ -1,5 +1,5 @@
 import express from 'express'
-import routesPolicy from './src/Policy/routes';
+import routesPolicy from './Policy/routes';
 const routes = express.Router()
 
 routes.use('/api/policy', routesPolicy)

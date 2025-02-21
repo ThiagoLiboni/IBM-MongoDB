@@ -1,6 +1,6 @@
 import express from 'express'
 import connect from './config/database.js'
-import routes from './routes.js'
+import routes from './src/routes.js'
 
 const app=  express();
 const PORT= process.env.PORT;
