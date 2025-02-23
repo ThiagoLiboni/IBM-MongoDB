@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const policy = new mongoose.Schema({
 
     id_user: {type: String, required: true},
-    id_doc: {type: String, required: true},
+    id_doc: {type: String, required: true, unique: true},
     validity: {type: Date, required: true},
     company: {type: Number, required: true},
     status: {type: Number, required: true},

@@ -9,6 +9,7 @@ const URI = process.env.STRING_CONNECTION.replace(/\s*database\s*/g);
 export const Connections = {
     POLICIES: process.env.STRING_CONNECTION.replace('database', data.POLICY),
     CHAT: process.env.STRING_CONNECTION.replace('database', data.CHAT),
+    BOT_AGENT: process.env.STRING_CONNECTION.replace('database', data.AGENT),
     MESSAGES: process.env.STRING_CONNECTION.replace('database', data.MESSAGES),
     TEMPLATES: process.env.STRING_CONNECTION.replace('database', data.TEMPLATES)
 }

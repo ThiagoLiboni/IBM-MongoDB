@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 const message = new mongoose.Schema({
-    id: {type:String, requided:true},
 	status: {type:Number, required:true},
-	readedAt: {type:Date},
+	sendedAt: {type:Date},
+	receviedAt: {type:Date},
+	attendant: {type: String, required: true},
+	from: {type:String, required:true},
 	to: {type:String, required:true},
 	content: {type:String, required:true},
-	from: {type:String, required:true},
-	sendedAt: {type:Date}
+	readedAt: {type:Date}
 })
 
-export default mongoose.model('Message',message);
+export default message;
