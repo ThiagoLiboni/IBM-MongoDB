@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 export const bot_agent = new mongoose.Schema({
-	nickname: {type: String, required:true},
-	id_user: {type: String, required: true}
+	nickname: {type: String},
+	id_user: {type: String}
 
 })
 export const chat = new mongoose.Schema({
 	target: {type: String, required: true},
 	bot_chat: {
 		id: {type: String, required: true},
-		started_at: {type: Date.now, required: true},
+		started_at: { type: Date, default: Date.now, required: true },
 		closed_at: {type: Date, default: "", required: true},
 		flux: {type: String, required: true}
     }

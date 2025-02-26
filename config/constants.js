@@ -4,6 +4,6 @@ const databases = {
     TEMPLATES:'templates',
     CHAT:'chat',
     MESSAGES: 'messages',
-    AGENT: 'bot_agent'
+    AGENT: 'agent'
 }
 export default databases;

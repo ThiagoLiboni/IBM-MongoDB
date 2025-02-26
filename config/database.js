@@ -1,9 +1,11 @@
-import mongodb from 'mongodb'
+import {ServerApiVersion } from 'mongodb'
+import mongoose from 'mongoose';
 import data from './constants.js'
 
 import dotenv from 'dotenv'
 dotenv.config()
 
+// const URI = process.env.STRING_CONNECTION;
 const URI = process.env.STRING_CONNECTION.replace(/\s*database\s*/g);
 
 export const Connections = {
@@ -14,14 +16,18 @@ export const Connections = {
     TEMPLATES: process.env.STRING_CONNECTION.replace('database', data.TEMPLATES)
 }
 
-const client = new mongodb.MongoClient(URI);
-
 async function connectToDatabase() {
     try {
-        await client.connect();
-        console.log("Successfully connected to Atlas");
-        return client;
+        mongoose.connect(URI, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+        })
+
     } catch (err) {
+        mongoose.disconnect();
         console.error('Error connecting to the database:', err.stack);
         throw err;
     }

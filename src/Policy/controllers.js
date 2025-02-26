@@ -1,22 +1,22 @@
 import mongoose from 'mongoose'
-import policy from './Schema/policy.ts'
-import { Connections } from '../../config/database.js'
+import policy from '../../schema/policy.js'
 
 class policyController {
-    constructor() {
-        this._dbConnection = mongoose.createConnection(Connections.POLICIES)
-        this._dbConnection.on("connected", () => {
-            console.log("Connect with the policies database");
-        })
+    constructor(stringConnection) {
+        this._dbConnectionPolicies = mongoose.createConnection(stringConnection)
+
+        // this._dbConnectionPolicies.on("connected", () => {
+        //     console.log("policies database is connected");
+        // })
     }
-    async registerPolicy(req, res) {
+    registerPolicy = async (req, res, next)=> {
         try {
             const { data, domain } = req.body
             let model
-            if (!mongoose.models[domain]) {
-                model = mongoose.model(domain, policy, domain);
+            if (!this._dbConnectionPolicies.models[domain]) {
+                model = this._dbConnectionPolicies.model(domain, policy, domain);
             }
-            model = mongoose.model(domain)
+            model = this._dbConnectionPolicies.model(domain)
             const result = await model.create(data)
 
             if (!result) {
@@ -25,13 +25,13 @@ class policyController {
             return res.status(201).json(result)
         } catch (err) {
             console.error('Error to register', err)
-            return res.status(500).json({ error: err })
+            next(err)
         }
     }
-    async updateRegistrationPolicy(req, res) {
+    updateRegistrationPolicy = async (req, res, next)=> {
         try {
             const { data, domain, filter } = req.body
-            const model = mongoose.model(domain)
+            const model = this._dbConnectionPolicies.model(domain)
             const result = model.updateOne(filter, {
                 $set: data
             })
@@ -41,13 +41,13 @@ class policyController {
             return res.status(204)
         } catch (err) {
             console.error('Error to update', err)
-            return res.status(500).json({ error: err })
+            rext(err)
         }
     }
-    async getPolicy(req, res) {
+    getPolicy = async (req, res, next)=> {
         try {
             const { domain, filter } = req.body
-            const model = mongoose.model(domain)
+            const model = this._dbConnectionPolicies.model(domain)
             const result = await model.findOne(filter)
 
             if (!mongoose.models[model]) {
@@ -57,13 +57,13 @@ class policyController {
 
         } catch (err) {
             console.error('Error to find the model')
-            return res.status(500).json({ error: err })
+            next(err)
         }
     }
-    async deleteRegistrationPolicy(req, res) {
+    deleteRegistrationPolicy = async (req, res, next)=> {
         try {
             const { domain, filter } = req.body
-            const model = mongoose.model(domain)
+            const model = this._dbConnectionPolicies.model(domain)
             const result = await model.deleteOne(filter)
 
             if (!mongoose.models[model]) {
@@ -73,7 +73,7 @@ class policyController {
 
         } catch (err) {
             console.error('Error to find the model')
-            return res.status(500).json({ error: err })
+            next(err)
         }
     }
 
